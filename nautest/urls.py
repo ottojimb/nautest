@@ -14,8 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
+
+from nautest.core import views
+
+router = routers.DefaultRouter()
+router.register(r"users", views.UserViewSet, basename="user")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("api/token", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("api/nearby_restaurants/", views.NearbyRestaurantsView.as_view(), name="nearby_restaurants"),
+    path("api/", include(router.urls), name="api"),
+    path("admin/", admin.site.urls),
 ]
