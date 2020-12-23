@@ -1,4 +1,7 @@
 """Define main views for core application."""
+import json
+
+import requests
 from django.conf import settings as global_settings
 from django.contrib.auth.models import User
 from rest_framework import permissions
@@ -7,12 +10,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import QueryLog
-
-from nautest.core.serializers import UserSerializer, QueryLogSerializer
 from .utils import query_string_osm
-
-import requests
-import json
+from nautest.core.serializers import QueryLogSerializer
+from nautest.core.serializers import UserSerializer
 
 
 def _setHeaders():
@@ -20,7 +20,7 @@ def _setHeaders():
 
 
 class NearbyRestaurantsView(APIView):
-    """API endpoint that allow nearby restaurants to be getted"""
+    """API endpoint that allow nearby restaurants to be getted."""
 
     permissions_classes = [permissions.IsAuthenticated]
 

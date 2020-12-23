@@ -1,7 +1,8 @@
 """Provide serializer for application objects."""
 from django.contrib.auth.models import User
-from .models import QueryLog
 from rest_framework import serializers
+
+from .models import QueryLog
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -41,4 +42,5 @@ class QueryLogSerializer(serializers.ModelSerializer):
         read_only_fields = ("id",)
 
     def create(self, validated_data):
+        """Class to override the heritance from the main class."""
         pass

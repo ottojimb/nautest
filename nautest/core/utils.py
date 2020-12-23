@@ -1,4 +1,8 @@
-def query_string_osm(location: str):
+"""General utilities definitions."""
+
+
+def query_string_osm(location: str):  # noqa: D103
+
     return f"""<osm-script output="json">
   <query type="node">
     <has-kv k="name" v="{location}"/>

@@ -1,3 +1,4 @@
+"""Module to define authentication tests."""
 from django.test import TestCase
 from rest_framework_simplejwt.models import TokenUser
 from rest_framework_simplejwt.settings import api_settings
