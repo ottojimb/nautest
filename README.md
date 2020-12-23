@@ -36,3 +36,5 @@ docker-compose up
 ```
 
 Now you can access to [localhost:8000](localhost:8000)
+
+For a preview of this application, you can view it [in this youtube link](https://youtu.be/gIzi7gNxEMg)
