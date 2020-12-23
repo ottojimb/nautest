@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    image: mdillon/postgis:11-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: nautest
+      POSTGRES_HOST: db
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - nautynetwork
+
+  backend:
+    links:
+      - db:db
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - nautynetwork
+networks:
+  nautynetwork:
+    driver: bridge

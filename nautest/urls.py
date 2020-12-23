@@ -23,6 +23,7 @@ from nautest.core import views
 
 router = routers.DefaultRouter()
 router.register(r"users", views.UserViewSet, basename="user")
+router.register(r"query_logs", views.QueryLogViewSet, basename="query_log")
 
 urlpatterns = [
     path("api/token", TokenObtainPairView.as_view(), name="token_obtain_pair"),

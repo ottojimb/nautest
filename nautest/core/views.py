@@ -6,7 +6,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from nautest.core.serializers import UserSerializer
+from .models import QueryLog
+
+from nautest.core.serializers import UserSerializer, QueryLogSerializer
 from .utils import query_string_osm
 
 import requests
@@ -27,8 +29,14 @@ class NearbyRestaurantsView(APIView):
         location = self.request.query_params.get("location", None)
 
         if location is not None:
-            req_headers = {"Content-Type": "application/xml", "Accept": "application/json"}
-            res_headers={"Content-Type": "application/json"}
+            ql = QueryLog(query_string=location)
+            ql.save()
+
+            req_headers = {
+                "Content-Type": "application/xml",
+                "Accept": "application/json",
+            }
+            res_headers = {"Content-Type": "application/json"}
 
             req = requests.post(
                 global_settings.OSM_PROVIDER,
@@ -49,3 +57,15 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Override the queryset definition."""
         return User.objects.filter(id=self.request.user.id).order_by("id")
+
+
+class QueryLogViewSet(viewsets.ModelViewSet):
+    """API endpoint that allows Query Log to be readed."""
+
+    permissions_classes = [permissions.IsAuthenticated]
+    serializer_class = QueryLogSerializer
+    http_method_names = ["get", "options"]
+
+    def get_queryset(self):
+        """Override the queryset definition."""
+        return QueryLog.objects.all().order_by("-created_at")
